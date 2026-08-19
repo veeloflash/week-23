@@ -1,0 +1,13 @@
+{
+    "goal": "Learn Python",
+    "completed_tasks": 1,
+    "total_tasks": 10,
+    "progress": 10.0,
+    "previous_plan": [
+        "Learn fundamentals of python",
+        "Practice python exercises",
+        "Review mistakes",
+        "Weekly assessment"
+    ],
+    "weak_topics": []
+}

@@ -1,0 +1,21 @@
+{
+    "goal": "Learn Python",
+    "completed_tasks": 1,
+    "total_tasks": 10,
+    "progress": 10.0,
+    "previous_plan": [
+        "Study python fundamentals for 1.7 hours",
+        "Review weak topics: core concepts",
+        "Practice python exercises for 1.7 hours",
+        "Review mistakes and retest python concepts",
+        "Complete a weekly assessment"
+    ],
+    "weak_topics": [
+        "core concepts"
+    ],
+    "previous_reflection": "Progress is below target. Reduce workload and revisit weak topics.",
+    "selected_tools": [
+        "progress",
+        "question"
+    ]
+}

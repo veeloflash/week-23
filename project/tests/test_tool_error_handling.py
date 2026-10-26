@@ -5,9 +5,15 @@ class TestToolErrorHandling(unittest.TestCase):
     def setUp(self):
         self.tool = ProgressTool()
 
-    def test_zero_total_tasks(self):
-        progress = self.tool.calculate(5, 0)
+    def test_zero_total_zero_completed(self):
+        """0/0 is valid → 0%"""
+        progress = self.tool.calculate(0, 0)
         self.assertEqual(progress, 0)
+
+    def test_nonzero_completed_zero_total(self):
+        """5/0 is invalid → ValueError"""
+        with self.assertRaises(ValueError):
+            self.tool.calculate(5, 0)
 
     def test_invalid_task_counts(self):
         with self.assertRaises(ValueError):

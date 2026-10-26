@@ -3,7 +3,7 @@ from project.agent.learning_agent import LearningAgent
 
 class TestToolSelection(unittest.TestCase):
     def setUp(self):
-        self.agent = LearningAgent()
+        self.agent = LearningAgent(user_id="test_tool_selection")
 
     def test_study_plan_tool_used(self):
         plan = self.agent.run("Learn Python", "python", 5, 1, 10)
@@ -24,6 +24,9 @@ class TestToolSelection(unittest.TestCase):
         self.agent.run("Learn Python", "python", 5, 2, 10)
         plan = self.agent.run("Learn Python", "python", 5, 9, 10)
         self.assertNotIn("study_plan", plan["selected_tools"])
+
+    def test_calculator_tool_registered(self):
+        self.assertIn("calculator", self.agent.registry.names())
 
 if __name__ == "__main__":
     unittest.main()

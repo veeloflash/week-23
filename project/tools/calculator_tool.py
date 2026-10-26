@@ -1,5 +1,5 @@
 class CalculatorTool:
-    """A simple calculator tool with explicit schema — demonstrates real tool-calling pattern."""
+    """A simple calculator tool with explicit schema."""
 
     schema = {
         "name": "calculator",
@@ -26,4 +26,4 @@ class CalculatorTool:
                 raise ValueError("Cannot divide by zero")
             return a / b
         else:
-            raise ValueError(f"Unknown operation: {operation}")
+            raise ValueError("Unknown operation: " + str(operation))

@@ -2,17 +2,12 @@ import json
 import os
 
 class MemoryManager:
-    def __init__(self, path="project/memory/memory.json"):
-        self.path = path
+    def __init__(self, user_id="default", base_path="project/memory"):
+        self.user_id = user_id
+        self.base_path = base_path
+        self.path = os.path.join(base_path, f"{user_id}.json")
         if not os.path.exists(self.path):
-            self.save({
-                "goal": "",
-                "completed_tasks": 0,
-                "total_tasks": 0,
-                "progress": 0,
-                "previous_plan": [],
-                "weak_topics": []
-            })
+            self.save(self._default_memory())
 
     def load(self):
         try:
@@ -37,5 +32,6 @@ class MemoryManager:
             "progress": 0,
             "previous_plan": [],
             "weak_topics": [],
-            "previous_reflection": ""
+            "previous_reflection": "",
+            "previous_decision": None
         }

@@ -32,9 +32,8 @@ class TestMemory(unittest.TestCase):
         mem_b.save({"goal": "Learn Math", "progress": 80})
         self.assertEqual(mem_a.load()["goal"], "Learn Python")
         self.assertEqual(mem_b.load()["goal"], "Learn Math")
-        # Cleanup
         for uid in ("user_a", "user_b"):
-            p = os.path.join("project/memory", f"{uid}.json")
+            p = os.path.join("project/memory", uid + ".json")
             if os.path.exists(p):
                 os.remove(p)
 

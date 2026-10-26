@@ -5,8 +5,10 @@ class ProgressTool:
             raise ValueError("completed and total tasks must be integers")
         if completed < 0 or total < 0:
             raise ValueError("task counts cannot be negative")
-        if total == 0:
-            return 0
         if completed > total:
             raise ValueError("completed tasks cannot exceed total tasks")
+        if total == 0:
+            if completed == 0:
+                return 0
+            raise ValueError("Cannot calculate progress: total is 0 but completed is not")
         return round((completed / total) * 100, 2)

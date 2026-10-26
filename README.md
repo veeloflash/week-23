@@ -1,129 +1,149 @@
-# Week 23 – Learning Workflow Agent (Full Product)
+# Week 23 – Deterministic Learning Workflow Agent Prototype
 
-This project implements a complete Learning Workflow Agent with:
+This project implements a **Deterministic Learning Workflow Agent** that demonstrates
+the core architecture of an AI learning agent:
 
-- AI Agent architecture  
-- Workflow engine  
-- Tool calling  
-- Multi-step planning  
-- Memory  
-- Reflection  
-- Security  
-- Automated testing  
-- CI pipeline  
+- Agent architecture (goal → plan → execute → reflect)
+- Workflow engine with multi-step planning
+- Tool calling via local tool abstraction layer
+- Memory persistence (per-user)
+- Reflection with expected/actual comparison
+- Security (heuristic demonstration only)
+- Automated testing
+- CI pipeline
 
-It fully meets Week23 engineering requirements.
-
----
-
-## 🚀 Features
-
-- Dynamic decision-making  
-- Real tool layer (study plan, progress, questions)  
-- Adaptive learning plan adjustment  
-- Memory persistence  
-- Reflection-based improvement  
-- Input validation & injection detection  
-- Full test suite  
-- GitHub Actions CI  
+**Important**: Decision policy is currently **rule-based (deterministic)**, not LLM-driven.
+This prototype validates Agent architecture and workflow orchestration for Week23.
+It does **not** implement autonomous LLM reasoning or dynamic planning from natural-language goals.
 
 ---
 
-## 🧠 Architecture
+## Features
 
-User  
-↓  
-Input Validation  
-↓  
-Injection Detection  
-↓  
-Planner  
-↓  
-Decision Engine  
-↓  
-Tools  
-↓  
-Verification  
-↓  
-Memory Update  
-↓  
-Reflection  
-↓  
+- Deterministic decision-making (rule-based policy)
+- Local tool abstraction / simulated tool-calling layer (study plan, progress, questions, calculator)
+- Multi-step planning (goal decomposition into ordered subtasks)
+- Adaptive learning plan adjustment
+- Per-user memory persistence
+- Reflection with expected vs actual comparison
+- Input validation & heuristic injection detection
+- Full test suite
+- GitHub Actions CI
+
+---
+
+## Architecture
+
+```
+User Input
+    ↓
+Input Validation (all fields)
+    ↓
+Injection Detection (heuristic)
+    ↓
+Planner (goal → ordered subtasks)
+    ↓
+Decision Engine (rule-based)
+    ↓
+Tool Selection
+    ↓
+Tool Execution (via registry)
+    ↓
+Reflection (expected vs actual)
+    ↓
+Memory Update (per-user)
+    ↓
 Output
+```
 
-See `docs/architecture.md` for full details.
+See `project/docs/architecture.md` for full details.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 project/
 ├── agent/
-├── workflow/
+│   ├── learning_agent.py
+│   ├── decision_engine.py
+│   ├── planner.py          # Multi-step planner
+│   └── reflection.py
 ├── tools/
+│   ├── registry.py
+│   ├── progress_tool.py
+│   ├── study_plan_tool.py
+│   ├── question_tool.py
+│   └── calculator_tool.py  # External tool with schema
 ├── memory/
+│   └── memory_manager.py   # Per-user memory (<user_id>.json)
 ├── security/
+│   ├── validator.py
+│   └── injection_detector.py
 ├── tests/
+├── docs/
 └── main.py
 ```
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Run all tests:
 
-```
+```bash
 python -m unittest discover -s project/tests
 ```
 
-See `docs/testing_report.md` for full results.
+See `project/docs/testing_report.md` for full results.
 
 ---
 
-## 🔐 Security
+## Security
 
-- Empty input rejection  
-- Length validation  
-- Prompt injection detection  
-- Safe execution path  
+- Empty input rejection
+- Length validation
+- Numeric range validation (hours, completed, total)
+- Prompt injection detection (**heuristic demonstration only**, not a complete defense)
+- Safe execution path
 
----
-
-## 💾 Memory
-
-Stored in `memory/memory.json`:
-
-- goal  
-- completed tasks  
-- total tasks  
-- progress  
-- previous plan  
+**Note**: The injection detector uses keyword matching and is for educational purposes only.
+Real security boundaries rely on restricted tools, parameter validation, and permission checks.
 
 ---
 
-## 🔄 Reflection
+## Memory
 
-The agent evaluates previous performance and adjusts future plans.
+Stored per-user in `memory/<user_id>.json`:
+
+- goal
+- completed tasks
+- total tasks
+- progress
+- previous plan
+- weak topics
+- previous reflection
 
 ---
 
-## 🛠 CI Pipeline
+## Reflection
+
+The agent compares expected vs actual progress and records:
+- Expected progress
+- Actual progress
+- Difference
+- Previous decision
+- Adjustment action
+
+---
+
+## CI Pipeline
 
 GitHub Actions automatically runs tests on every push.
 
 ---
 
-## 📈 Future Improvements
+## Status
 
-- Add web API  
-- Add UI  
-- Add more tools  
-- Add advanced planning algorithms  
-
----
-
-## ✔ Status
-
-**Fully meets Week23 exit criteria.**
+Meets the core educational architecture requirements for a local Week23 prototype;
+not production-ready. Decision policy is deterministic (rule-based); no LLM integration.

@@ -5,7 +5,7 @@ class MemoryManager:
     def __init__(self, user_id="default", base_path="project/memory"):
         self.user_id = user_id
         self.base_path = base_path
-        self.path = os.path.join(base_path, f"{user_id}.json")
+        self.path = os.path.join(base_path, user_id + ".json")
         if not os.path.exists(self.path):
             self.save(self._default_memory())
 

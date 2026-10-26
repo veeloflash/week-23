@@ -33,25 +33,23 @@ class LearningAgent:
         if not isinstance(subject, str) or not subject.strip():
             raise ValueError("subject must not be empty")
 
-        # Load memory
         mem = self.memory.load()
 
         progress = self.registry.execute("progress", "calculate", completed=completed, total=total)
-        print(f"Progress: {progress}%")
+        print("Progress: " + str(progress) + "%")
 
         decision = self.decision_engine.decide(progress, goal, mem)
-        print(f"Decision: {decision}")
+        print("Decision: " + decision)
 
         selected_tools = self.decision_engine.select_tools(goal, progress, mem)
-        print(f"Selected tools: {', '.join(selected_tools)}")
+        print("Selected tools: " + ", ".join(selected_tools))
 
-        # Multi-step planning (Issue 2)
         plan_result = self.planner.plan(
             goal=goal, subject=subject, hours=hours,
             progress=progress, weak_topics=mem.get("weak_topics", []),
             decision=decision
         )
-        print(f"Plan: {plan_result['total_steps']} steps")
+        print("Plan: " + str(plan_result["total_steps"]) + " steps")
 
         plan = {"subject": subject, "goal": goal, "weekly_hours": hours, "tasks": []}
         tool_errors = []
@@ -63,7 +61,7 @@ class LearningAgent:
                 )
                 print("Generated Plan:", plan)
             except (TypeError, ValueError, OSError) as error:
-                tool_errors.append(f"study_plan: {error}")
+                tool_errors.append("study_plan: " + str(error))
 
         if "question" in selected_tools:
             try:
@@ -73,9 +71,8 @@ class LearningAgent:
                     weak_topics=mem.get("weak_topics", [])
                 )
             except (TypeError, ValueError, OSError) as error:
-                tool_errors.append(f"question: {error}")
+                tool_errors.append("question: " + str(error))
 
-        # Reflection with expected/actual comparison (Issue 9)
         previous_decision = mem.get("previous_decision", None)
         reflection = self.reflection_engine.reflect(
             progress,

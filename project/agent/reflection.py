@@ -5,7 +5,7 @@ class ReflectionEngine:
 
         if progress < expected:
             return {
-                "message": f"Progress is below target by {abs(difference)}%. Reduce workload and revisit weak topics.",
+                "message": "Progress is below target by " + str(abs(difference)) + "%. Reduce workload and revisit weak topics.",
                 "adjustment": "reduce_workload",
                 "expected": expected,
                 "actual": progress,

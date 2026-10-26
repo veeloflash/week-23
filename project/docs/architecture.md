@@ -1,15 +1,50 @@
 # System Architecture
 
 ```text
-CLI input -> validation and injection detection -> LearningAgent
-	-> memory load -> progress -> decision and tool selection
-	-> registry tool execution -> reflection -> memory save -> output
+CLI input (with user_id)
+    ↓
+Input parsing (protected by try/except)
+    ↓
+Input validation (goal, subject, hours, completed, total)
+    ↓
+Injection detection (heuristic keyword matching)
+    ↓
+Memory load (per-user: memory/<user_id>.json)
+    ↓
+Progress calculation
+    ↓
+Decision engine (rule-based: intensive / normal / advance)
+    ↓
+Planner (goal → ordered subtasks with dependencies)
+    ↓
+Tool selection (rule-based)
+    ↓
+Tool execution via registry (progress, study_plan, question, calculator)
+    ↓
+Reflection (expected vs actual, with adjustment)
+    ↓
+Memory save (per-user)
+    ↓
+Output
 ```
 
-`DecisionEngine.decide()` retains the `intensive`, `normal`, and `advance` modes. `select_tools()` considers goal wording, current progress, previous plan, and weak topics. Progress is always selected; planning is selected for a new goal or missing plan; questions are selected for practice goals, low progress, or weak topics.
+## Key Design Decisions
 
-`ToolRegistry` maps names to tool instances and executes named methods. The progress, study-plan, and question tools receive runtime parameters. Optional tool failures are returned in `tool_errors`.
+- **Decision policy is deterministic (rule-based)**, not LLM-driven.
+  This is intentional for the Week23 educational prototype.
+- **Planner** decomposes goals into ordered subtasks with dependencies.
+- **Tool layer** is a local abstraction with schema definitions.
+  The calculator tool demonstrates the tool-calling pattern.
+- **Memory** is per-user to prevent data leakage.
+- **Reflection** records expected vs actual progress for auditability.
+- **Security** uses heuristic keyword matching for injection detection.
+  This is a demonstration only, not a complete defense.
+- **Input validation** covers all fields at the system boundary.
 
-The agent loads prior progress, plan, weak topics, and reflection before selection. It reflects on current progress and saves the effective plan and feedback for the next run.
+## Limitations
 
-This is a local educational example. Decisions are deterministic, security detection is heuristic, memory is a JSON file without concurrent-write locking, and no remote authentication, retry, timeout, API, or UI exists.
+- No LLM integration
+- No remote API calls
+- No concurrent write locking
+- No production-grade security
+- CLI-only interface
